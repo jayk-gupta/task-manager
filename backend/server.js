@@ -27,7 +27,8 @@ mongoose
 
 const taskRoutes = require("./routes/TaskRoutes")
 app.use("/task", taskRoutes)
-
+const userRoutes = require("./routes/userRoutes")
+app.use("/user",userRoutes)
 // const userRoutes = require("./routes/userRoutes")
 // app.use("/user",userRoutes)
 

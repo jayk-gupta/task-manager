@@ -1,4 +1,4 @@
-const jwt = require("json-web-token");
+const jwt = require("jsonwebtoken");
 ////////////////////////////////////////////////////////
 const jwtAuthMiddleware = (req, res, next) => {
   // extract the jwt token
@@ -23,6 +23,8 @@ const jwtAuthMiddleware = (req, res, next) => {
 // function to generate JWT Token
 const generateToken = (userData) => {
   // generate a new JWT token using user data
-  return jwt.sign(userData, token, process.env.JWT_SECRET);
+  return jwt.sign(userData,  process.env.JWT_SECRET);
 };
 module.exports = {jwtAuthMiddleware,generateToken};
+
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YTkyM2E5MWRhMzRjNjUyMGQyMjE0NyIsInVzZXJuYW1lIjoiYyIsImlhdCI6MTcyMjM2MDc0NX0.UExAa7VtF4qX22Mxso5tHLL2AEaq2dmLdt7uxUhsULc
