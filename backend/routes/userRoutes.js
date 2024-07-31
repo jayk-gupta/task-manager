@@ -1,10 +1,11 @@
 const express = require("express")
 const userController = require("../controllers/UserController")
+const { jwtAuthMiddleware } = require("../jwt")
 const router = express.Router()
 
 
 
-router.get("/",userController.getAllUsers)
+router.get("/",jwtAuthMiddleware,userController.getAllUsers)
 
 
 router.post("/register",userController.registerUser)

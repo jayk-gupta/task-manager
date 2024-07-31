@@ -3,12 +3,14 @@ const Task = require("../models/Task");
 // GET FUNCTIONS
 exports.getAllTasks = async (req, res) => {
   try {
-    const data = await Task.find();
+    const userId = req.userPayload.id;
+    const data = await Task.find({ userId });
     if (data.length === 0) {
       res.status(404).json({
         message: "No tasks found",
       });
     } else {
+      res.status(200).json(data);
       console.log("Tasks fetched successfully");
     }
   } catch (err) {
@@ -39,9 +41,16 @@ exports.getTaskById = async (req, res) => {
 // POST FUNCTIONS
 exports.createTask = async (req, res) => {
   try {
-    const data = req.body;
+    const { title, description, status, priority } = req.body;
+    const userId = req.userPayload.id;
     // create new task
-    const newTask = new Task(data);
+    const newTask = new Task({
+      userId,
+      title,
+      description,
+      status,
+      priority,
+    });
     const savedTask = await newTask.save();
     console.log(savedTask);
     res.status(201).json({
@@ -61,10 +70,15 @@ exports.updateTask = async (req, res) => {
   try {
     const taskId = req.params.id;
     const updatedTaskData = req.body;
-    const res = await Task.findByIdAndUpdate(taskId, updatedTaskData, {
-      new: true,
-      runValidators: true,
-    });
+    const userId = req.userPayload.id;
+
+    const res = await Task.findByIdAndUpdate(
+      { _id: taskId, userId },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
     if (!response) {
       return res.status(404).json({ error: "task not found" });
     }
@@ -81,9 +95,13 @@ exports.updateTask = async (req, res) => {
 exports.deleteTask = async (req, res) => {
   try {
     const taskId = req.params.id;
-    const res = await Task.findByIdAndDelete(taskId);
+    const userId = req.userPayload.id;
+    const res = await Task.findByIdAndDelete({ _id: taskId, userId });
     if (!response) {
       return res.status(404).json({ error: "task not found" });
+    }
+    if (!deletedTask) {
+      return res.status(404).json({ error: "Task not found" });
     }
     res.status(200).json({
       response: response,
@@ -99,6 +117,7 @@ exports.deleteTask = async (req, res) => {
 };
 exports.deleteAllTasks = async (req, res) => {
   try {
+    
   } catch (error) {
     console.log(error);
     res.status(500).json({

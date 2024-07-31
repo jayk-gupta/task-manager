@@ -2,7 +2,7 @@ import React from "react";
 import "../styles/login.css";
 import lottie from "lottie-web";
 import { defineElement } from "@lordicon/element";
-import Cube from "../three_js/Cube";
+import Cube from "../ThreeJS/Cube";
 import LoginForm from "../Login/LoginForm";
 
 // define "lord-icon" custom element with default properties

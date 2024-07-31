@@ -82,3 +82,10 @@ exports.registerUser = async (req, res) => {
     });
   }
 };
+exports.getAllUsers("/profile", jwtAuthMiddleware, async (req, res) => {
+  try {
+    const userData = req.user 
+    console.log(userData);
+    
+  }
+})
