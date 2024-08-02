@@ -20,7 +20,7 @@ function LoginForm() {
   return (
     <div>
       <form>
-        <div className="email flex flex-col mb-4 ">
+        <div className="email mb-4 flex flex-col">
           <label htmlFor="email" className="mb-1">
             Email
           </label>
@@ -29,22 +29,22 @@ function LoginForm() {
             id="email"
             value={email}
             onChange={emailHandler}
-            className={` focus:outline-none focus:ring-2 focus:ring-orange-400 border-2 bg-gray-50 p-2 rounded-md`}
+            className={`rounded-md border-2 bg-gray-50 p-2 focus:outline-none focus:ring-2 focus:ring-orange-400`}
           />
         </div>
-        <div className="password flex flex-col mb-4 w-96">
+        <div className="password mb-4 flex w-96 flex-col">
           <label htmlFor="password" className="mb-1">
             Password
           </label>
 
           <input
-            className={` focus:outline-none focus:ring-2 focus:ring-orange-400 border-2 bg-gray-50 p-2 rounded-md`}
+            className={`rounded-md border-2 bg-gray-50 p-2 focus:outline-none focus:ring-2 focus:ring-orange-400`}
             type={hidePassword ? "password" : "text"}
             id="password"
             value={password}
-                      onChange={passwordHandler}
-                      minLength={6}
-                      maxLength={12}
+            onChange={passwordHandler}
+            minLength={6}
+            maxLength={12}
           />
           <span
             onClick={passwordVisibilityHandler}
@@ -61,7 +61,7 @@ function LoginForm() {
             )}
           </span>
         </div>
-        <button className="btn btn-error hover:bg-[#d44d27] bg-[#EF846A] text-white text-sm  mt-4 w-full">
+        <button className="btn btn-error mt-4 w-full bg-[#EF846A] text-sm text-white hover:bg-[#d44d27]">
           Sign In
         </button>
       </form>

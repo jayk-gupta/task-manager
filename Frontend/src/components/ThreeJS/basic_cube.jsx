@@ -11,12 +11,12 @@ const Cube = () => {
       60,
       containerRef.current.offsetWidth / containerRef.current.offsetHeight,
       0.1,
-      1000
+      1000,
     );
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(
       containerRef.current.offsetWidth,
-      containerRef.current.offsetHeight
+      containerRef.current.offsetHeight,
     );
     renderer.setClearColor(0x000000, 0); // Set background color to transparent
     containerRef.current.appendChild(renderer.domElement);
@@ -30,7 +30,7 @@ const Cube = () => {
     const edges = new THREE.EdgesGeometry(geometry);
     const line = new THREE.LineSegments(
       edges,
-      new THREE.LineBasicMaterial({ color: 0x000000 })
+      new THREE.LineBasicMaterial({ color: 0x000000 }),
     );
     cube.add(line);
 

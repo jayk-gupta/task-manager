@@ -26,12 +26,12 @@ function AddTaskForm({ closeForm }) {
   return (
     <div>
       <form
-        className="border-2 rounded-xl bg-white border-gray-300 flex flex-col gap-2 p-2 "
+        className="flex flex-col gap-2 rounded-xl border-2 border-gray-300 bg-white p-2"
         onSubmit={handleSubmit}
       >
         {/* task name */}
         <input
-          className="bg-white border-none text-gray-500 font-bold focus: outline-none"
+          className="focus: border-none bg-white font-bold text-gray-500 outline-none"
           placeholder="Task name"
           required
           value={taskName}
@@ -39,7 +39,7 @@ function AddTaskForm({ closeForm }) {
         />
         {/* description */}
         <input
-          className="bg-none bg-white border-none text-sm text-gray-300  focus: outline-none"
+          className="focus: border-none bg-white bg-none text-sm text-gray-300 outline-none"
           placeholder="Description "
           required
           value={description}
@@ -48,7 +48,7 @@ function AddTaskForm({ closeForm }) {
         <div className="options mt-4 border-b-2 pb-2">
           {/*****************  PRIORITY * ***********/}
           <button
-            className="flex px-2 border-2 items-center justify-center gap-2 w-32 rounded-lg"
+            className="flex w-32 items-center justify-center gap-2 rounded-lg border-2 px-2"
             onClick={priorityShowHHandler}
           >
             <span>
@@ -58,17 +58,17 @@ function AddTaskForm({ closeForm }) {
           </button>
           {showPrioriies ? <PriorityOptions /> : <></>}
         </div>
-        <div className="flex gap-2 justify-end border-t-1">
+        <div className="border-t-1 flex justify-end gap-2">
           <button
             type="button"
-            className=" font-bold bg-gray-100 hover:bg-gray-200 p-2 rounded-sm"
+            className="rounded-sm bg-gray-100 p-2 font-bold hover:bg-gray-200"
             onClick={closeForm}
           >
             Cancel
           </button>
           <button
             type="submit"
-            className={`rouded-lg font-bold p-2 rounded-sm text-white bg-[#EDA59E] ${
+            className={`rouded-lg rounded-sm bg-[#EDA59E] p-2 font-bold text-white ${
               taskName && description
                 ? "bg-[#DC4C3E] hover:bg-[#BF3B2D]"
                 : "cursor-not-allowed"

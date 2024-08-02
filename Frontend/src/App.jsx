@@ -2,10 +2,15 @@ import React from "react";
 import Login from "./components/pages/Login";
 import Home from "./components/pages/Home/Home";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Register from "./components/Auth/Register/Register";
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/home",
     element: <Home />,
+  },
+  {
+    path: "/",
+    element: <Register />,
   },
   {
     path: "/login",
@@ -14,7 +19,7 @@ const router = createBrowserRouter([
 ]);
 function App() {
   return (
-    <div className="bg-white h-screen">
+    <div className="h-screen bg-white">
       <RouterProvider router={router} />
     </div>
   );

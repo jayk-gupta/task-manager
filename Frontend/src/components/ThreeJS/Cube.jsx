@@ -11,26 +11,26 @@ const Cube = () => {
       60,
       containerRef.current.offsetWidth / containerRef.current.offsetHeight,
       0.1,
-      1000
+      1000,
     );
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(
       containerRef.current.offsetWidth,
-      containerRef.current.offsetHeight
+      containerRef.current.offsetHeight,
     );
     renderer.setClearColor(0, 0); // Set background color to transparent
     containerRef.current.appendChild(renderer.domElement);
 
     // Create a cube
     const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshBasicMaterial({ color: 0xffffff});
+    const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
     const cube = new THREE.Mesh(geometry, material);
     scene.add(cube);
     // Create a border for the cube
     const edges = new THREE.EdgesGeometry(geometry);
     const line = new THREE.LineSegments(
       edges,
-      new THREE.LineBasicMaterial({ color: 0xe6c4bc })
+      new THREE.LineBasicMaterial({ color: 0xe6c4bc }),
     );
     cube.add(line);
 

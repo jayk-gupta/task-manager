@@ -6,7 +6,7 @@ function Home() {
   return (
     <div className="flex gap-2">
       <SideBar />
-      <div className="flex justify-center w-full">
+      <div className="flex w-full justify-center">
         <DisplaySection />
       </div>
     </div>

@@ -1,4 +1,7 @@
-.project-info{
-background: linear-gradient(28deg, rgba(233, 238, 247, 1) 0%, rgba(249, 243, 238, 1) 100%);
-
+.project-info {
+  background: linear-gradient(
+    28deg,
+    rgba(233, 238, 247, 1) 0%,
+    rgba(249, 243, 238, 1) 100%
+  );
 }
