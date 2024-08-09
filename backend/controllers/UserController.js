@@ -24,9 +24,10 @@ exports.getAllUsers = async (req, res) => {
 exports.loginUser = async (req, res) => {
   try {
     // extract username and password from body
-    const { username, password } = req.body;
+    console.log(req.body);
+    const { email, password } = req.body;
     // Find the user in the database
-    const user = await User.findOne({ username: username });
+    const user = await User.findOne({ email:email });
     // If user does not exists or password does not match
     if (!user || !(user.comparePassword(password))) {
       return res.status(401).json({
@@ -35,7 +36,7 @@ exports.loginUser = async (req, res) => {
     }
       const payload = {
           id: user.id,
-          username:user.username
+          email:user.email
       }
       const token = generateToken(payload)
       //   return token
@@ -49,30 +50,22 @@ exports.loginUser = async (req, res) => {
 };
 // REGISTER USER
 exports.registerUser = async (req, res) => {
-  const { username, email, password } = req.body;
+  console.log(req.body);
+  const {  email, password } = req.body;
   try {
     // check if user already exists
-    let user = await User.findOne({ username });
+    let user = await User.findOne({ email });
     if (user) {
       return res.status(400).json({
         msg: "User already exists",
       });
     }
-    user = new User({ username, email, password });
+    user = new User({ email, password });
       savedUser = await user.save();
       console.log(savedUser);
-    //   generate token
-    const payload = {
-      id: savedUser.id,
-      username: savedUser.username,
-    };
-    console.log(JSON.stringify(payload));
-    const token = generateToken(payload); 
-    console.log("token is:"+token);
+  
     res.status(201).json({
-      response: savedUser,
-      token: token,
-      messgae: "user registered successfully",
+      message: "user registered successfully",
     });
   } catch (error) {
     console.log(error);
@@ -82,10 +75,11 @@ exports.registerUser = async (req, res) => {
     });
   }
 };
-exports.getAllUsers("/profile", jwtAuthMiddleware, async (req, res) => {
-  try {
-    const userData = req.user 
-    console.log(userData);
+
+// exports.getAllUsers("/profile", jwtAuthMiddleware, async (req, res) => {
+//   try {
+//     const userData = req.user 
+//     console.log(userData);
     
-  }
-})
+//   }
+// })
