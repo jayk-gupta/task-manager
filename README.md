@@ -12,7 +12,8 @@ A full-stack web application for managing tasks, built with MongoDB, Express.js,
   - Drag-and-drop functionality for task organization.
   - Notification systems for reminders and updates.
 
-  ## Current Status
+## Current Status
 
 - Currently working on task functionalities.
 - Completed user registration and login with JWT.
+
