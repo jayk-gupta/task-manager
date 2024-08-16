@@ -6,8 +6,9 @@ function AddTaskForm({ closeForm }) {
   // states
   const [taskName, setTaskName] = useState("");
   const [description, setDescription] = useState("");
+  const [status,setStatus] = useState("pending")
   const [submit, setSubmit] = useState(false);
-  const [showPrioriies, setShowPriorities] = useState(false);
+  const [showPriorities, setShowPriorities] = useState(false);
   //  EVENT HANDLERS
   function taskHandler(e) {
     setTaskName(e.target.value);

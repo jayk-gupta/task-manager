@@ -1,5 +1,5 @@
 import React from "react";
-import SideBar from "../../HomePage/SideBar";
+import SideBar from "../../HomePage/Sidebar/SideBar";
 import DisplaySection from "../../HomePage/DisplaySection";
 import { logout } from "../../../services/api";
 import { useNavigate } from "react-router-dom";

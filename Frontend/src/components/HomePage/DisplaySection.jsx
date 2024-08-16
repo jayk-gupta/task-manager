@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { FaPlusCircle } from "react-icons/fa";
-import AddTaskForm from "./AddTaskForm";
+import AddTaskForm from "./TaskForm/AddTaskForm";
 function DisplaySection() {
   const [addTask, setAddTask] = useState();
   const [popupTask, setPopupTask] = useState(false);

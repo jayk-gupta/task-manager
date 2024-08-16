@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { z } from "zod";
 import { useNavigate } from "react-router-dom";
 import FormWrapper from "../components/FormWrapper";
 import EmailInput from "../components/EmailInput";
