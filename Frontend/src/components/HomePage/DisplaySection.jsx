@@ -1,39 +1,73 @@
 import React from "react";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { FaPlusCircle } from "react-icons/fa";
 import AddTaskForm from "./TaskForm/AddTaskForm";
+import TaskDisplay from "../Tasks/TaskDisplay";
+import { createTask, getAllTasks } from "../../api/task";
 function DisplaySection() {
-  const [addTask, setAddTask] = useState();
-  const [popupTask, setPopupTask] = useState(false);
-  function FormCloseHanlder() {
-    setPopupTask(!popupTask);
+  const [showTaskForm, setshowTaskForm] = useState(false);
+  const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const data = await getAllTasks();
+        console.log(data);
+        setTasks(data);
+      } catch (error) {
+        console.log(error);
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchTasks();
+  }, []);
+
+  const handleTaskCreation = async (taskData) => {
+    try {
+      const createdTask = await createTask(taskData);
+      setTasks((prevTasks) => [...prevTasks, createdTask]);
+      console.log("Task created", createdTask);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+
+  function toggleTaskForm() {
+    setshowTaskForm(!showTaskForm);
   }
-  function taskHandler() {
-    setAddTask();
+
+  function formCloseHanlder() {
+    setshowTaskForm(!showTaskForm);
   }
-  function popupTaskHandler() {
-    setPopupTask(!popupTask);
-  }
+
+  if (loading) return <p>Loading tasks...</p>;
+
+  if (error) return <p>Error fetching tasks: {error}</p>;
+
   return (
-    <div className="h-/12 mt-32 w-1/2">
+    <div className="h-/12 relative w-full p-12 pt-24">
       <div className="tasks flex flex-col">
-        <h3 className="text-lg font-bold text-gray-700">Today</h3>
-        {/* display number of tasks */}
-        <p>1 task</p>
-        <div className="my-4">tasks list</div>
-        <div>
-          {popupTask ? (
-            <AddTaskForm closeForm={FormCloseHanlder} />
-          ) : (
-            <button
-              className="flex items-center gap-2 hover:text-[#DC4C3E]"
-              onClick={popupTaskHandler}
-            >
-              <FaPlusCircle />
-              Add task
-            </button>
-          )}
+        <button
+          className="flex items-center gap-2 hover:text-[#DC4C3E]"
+          onClick={toggleTaskForm}
+        >
+          <FaPlusCircle />
+          Add task
+        </button>
+        <div
+          className={`absolute left-[25%] z-50 w-1/2 ${showTaskForm ? "block" : "hidden"}`}
+        >
+          <AddTaskForm
+            closeForm={formCloseHanlder}
+            onSubmit={handleTaskCreation}
+          />
         </div>
+        <TaskDisplay tasks={tasks} />
       </div>
     </div>
   );

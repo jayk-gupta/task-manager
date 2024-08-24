@@ -11,7 +11,7 @@ function Home() {
     navigate("/login");
   }
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 ">
       <SideBar />
       <div className="flex w-full justify-center">
         <DisplaySection />

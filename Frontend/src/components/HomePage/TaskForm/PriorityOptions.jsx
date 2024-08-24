@@ -1,26 +1,28 @@
-import React from "react";
-import { IoFlag } from "react-icons/io5";
-import { CiFlag1 } from "react-icons/ci";
-import { PiCheck } from "react-icons/pi";
-function PriorityOptions() {
+import React, { useState } from "react";
+
+function PriorityOptions({ onSelect }) {
+  const [selectedPriority, setSelectedPriority] = useState("");
+
+  const handleSelectChange = (event) => {
+    const priority = event.target.value;
+    setSelectedPriority(priority);
+    onSelect(priority);
+  };
+
   return (
-    <div className="w-32 rounded-lg border-[1px] pl-2">
-      <button className="flex w-full items-center gap-2 hover:bg-gray-100">
-        <IoFlag className="text-red-400" />
-        Priority 1
-      </button>
-      <button className="flex w-full items-center gap-2 hover:bg-gray-100">
-        <IoFlag className="text-orange-400" />
-        Priority 2
-      </button>
-      <button className="flex w-full items-center gap-2 hover:bg-gray-100">
-        <IoFlag className="text-blue-400" />
-        Priority 3
-      </button>
-      <button className="flex w-full items-center gap-2 hover:bg-gray-100">
-        <CiFlag1 className="" />
-        Priority 4
-      </button>
+    <div className="w-32">
+      <select
+        value={selectedPriority}
+        onChange={handleSelectChange}
+        className="w-full rounded-lg border-2 py-2 bg-white"
+      >
+        <option value="" disabled>
+          Select Priority
+        </option>
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
     </div>
   );
 }

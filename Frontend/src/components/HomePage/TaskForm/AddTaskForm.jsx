@@ -2,32 +2,43 @@ import React from "react";
 import { useState } from "react";
 import { CiFlag1 } from "react-icons/ci";
 import PriorityOptions from "./PriorityOptions";
-function AddTaskForm({ closeForm }) {
+import StatusOptions from "./StatusOptions";
+
+function AddTaskForm({ onSubmit,closeForm }) {
   // states
-  const [taskName, setTaskName] = useState("");
+  const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [status,setStatus] = useState("pending")
-  const [submit, setSubmit] = useState(false);
-  const [showPriorities, setShowPriorities] = useState(false);
+  const [selectedPriority, setSelectedPriority] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState("pending");
   //  EVENT HANDLERS
   function taskHandler(e) {
-    setTaskName(e.target.value);
+    setTitle(e.target.value);
   }
   function descriptionHanlder(e) {
     setDescription(e.target.value);
   }
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    setSubmit(true);
+    const newTask = {
+      title: title,
+      description,
+      status: selectedStatus,
+      priority: selectedPriority,
+    };
+    onSubmit(newTask)
+    closeForm()
   }
-  function priorityShowHHandler() {
-    setShowPriorities(!showPrioriies);
+  const handleStatusChange = (status) => {
+    setSelectedStatus(status);
+  };
+  function handlePrioritySelect(priority) {
+    setSelectedPriority(priority);
   }
   //  JSX
   return (
-    <div>
+    <div className="rounded-xl shadow-2xl">
       <form
-        className="flex flex-col gap-2 rounded-xl border-2 border-gray-300 bg-white p-2"
+        className="flex flex-col gap-2 rounded-xl bg-white p-2"
         onSubmit={handleSubmit}
       >
         {/* task name */}
@@ -35,30 +46,33 @@ function AddTaskForm({ closeForm }) {
           className="focus: border-none bg-white font-bold text-gray-500 outline-none"
           placeholder="Task name"
           required
-          value={taskName}
+          value={title}
           onChange={taskHandler}
         />
         {/* description */}
         <input
-          className="focus: border-none bg-white bg-none text-sm text-gray-300 outline-none"
+          className="focus: border-none bg-white bg-none text-lg text-gray-500 outline-none"
           placeholder="Description "
           required
           value={description}
           onChange={descriptionHanlder}
         />
-        <div className="options mt-4 border-b-2 pb-2">
-          {/*****************  PRIORITY * ***********/}
-          <button
-            className="flex w-32 items-center justify-center gap-2 rounded-lg border-2 px-2"
-            onClick={priorityShowHHandler}
-          >
-            <span>
-              <CiFlag1 className="text-lg text-red-400" />
-            </span>
-            Priority
-          </button>
-          {showPrioriies ? <PriorityOptions /> : <></>}
+        {/* OPTIONS */}
+        <div className="options flex gap-2 border-b-2">
+          <div className="options mt-4 pb-2">
+            {/*****************  PRIORITY * ***********/}
+            <PriorityOptions onSelect={handlePrioritySelect} />
+          </div>
+          {/* status */}
+          <div className="options mt-4 pb-2">
+            {/*****************  PRIORITY * ***********/}
+            <StatusOptions
+              selectedStatus={selectedStatus}
+              onStatusChange={handleStatusChange}
+            />
+          </div>
         </div>
+
         <div className="border-t-1 flex justify-end gap-2">
           <button
             type="button"
@@ -70,7 +84,7 @@ function AddTaskForm({ closeForm }) {
           <button
             type="submit"
             className={`rouded-lg rounded-sm bg-[#EDA59E] p-2 font-bold text-white ${
-              taskName && description
+              title && description
                 ? "bg-[#DC4C3E] hover:bg-[#BF3B2D]"
                 : "cursor-not-allowed"
             }`}

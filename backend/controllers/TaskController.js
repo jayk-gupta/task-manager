@@ -3,6 +3,7 @@ const Task = require("../models/Task");
 // GET FUNCTIONS
 exports.getAllTasks = async (req, res) => {
   try {
+    console.log(req.userPayload);
     const userId = req.userPayload.id;
     const data = await Task.find({ userId });
     if (data.length === 0) {
@@ -42,6 +43,7 @@ exports.getTaskById = async (req, res) => {
 exports.createTask = async (req, res) => {
   try {
     const { title, description, status, priority } = req.body;
+    console.log(req.body);
     const userId = req.userPayload.id;
     // create new task
     const newTask = new Task({
