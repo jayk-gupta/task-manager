@@ -17,3 +17,8 @@ A full-stack web application for managing tasks, built with MongoDB, Express.js,
 - Currently working on task functionalities.
 - Completed user registration and login with JWT.
 
+## Screenshots
+
+![Screenshot_2024-08-24_20_00_34](https://github.com/user-attachments/assets/97e114ff-e7f8-41f9-a590-a769ff46ea8e)
+![Screenshot_2024-08-24_20_00_25](https://github.com/user-attachments/assets/e57269ac-12a4-4e9f-9e06-81c16dab3c4b)
+![Screenshot_2024-08-24_20_01_11](https://github.com/user-attachments/assets/1821c694-6f66-4753-9858-1a7359901dc0)
