@@ -3,36 +3,41 @@ import { useState } from "react";
 import { CiFlag1 } from "react-icons/ci";
 import PriorityOptions from "./PriorityOptions";
 import StatusOptions from "./StatusOptions";
+import { useDispatch } from "react-redux";
+import { addTask } from "../../../redux/taskSlice";
 
-function AddTaskForm({ onSubmit,closeForm }) {
+function AddTaskForm({  closeForm }) {
   // states
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [selectedPriority, setSelectedPriority] = useState(false);
-  const [selectedStatus, setSelectedStatus] = useState("pending");
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [selectedPriority, setSelectedPriority] = useState<string>("low");
+  const [selectedStatus, setSelectedStatus] = useState<string>("pending");
+  const dispatch = useDispatch();
   //  EVENT HANDLERS
-  function taskHandler(e) {
+  function taskHandler(e:React.ChangeEvent<HTMLInputElement>) {
     setTitle(e.target.value);
   }
-  function descriptionHanlder(e) {
+  function descriptionHanlder(e:React.ChangeEvent<HTMLInputElement>) {
     setDescription(e.target.value);
   }
-  async function handleSubmit(e) {
+
+  const handleStatusChange = (status:string) => {
+    setSelectedStatus(status);
+  };
+  function handlePrioritySelect(priority:string) {
+    setSelectedPriority(priority);
+  }
+  ///////////////////
+  function handleSubmit(e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
     const newTask = {
-      title: title,
+      title,
       description,
       status: selectedStatus,
       priority: selectedPriority,
     };
-    onSubmit(newTask)
-    closeForm()
-  }
-  const handleStatusChange = (status) => {
-    setSelectedStatus(status);
-  };
-  function handlePrioritySelect(priority) {
-    setSelectedPriority(priority);
+    dispatch(addTask(newTask));
+    closeForm();
   }
   //  JSX
   return (

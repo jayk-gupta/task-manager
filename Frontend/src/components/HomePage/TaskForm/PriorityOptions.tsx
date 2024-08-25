@@ -3,7 +3,7 @@ import React, { useState } from "react";
 function PriorityOptions({ onSelect }) {
   const [selectedPriority, setSelectedPriority] = useState("");
 
-  const handleSelectChange = (event) => {
+  const handleSelectChange = (event:React.ChangeEvent<HTMLSelectElement>) => {
     const priority = event.target.value;
     setSelectedPriority(priority);
     onSelect(priority);

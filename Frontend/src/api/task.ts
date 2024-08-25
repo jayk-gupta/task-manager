@@ -1,6 +1,12 @@
 import axios from "axios";
 const API_URL = "http://localhost:3000/task";
 
+interface TaskData {
+  title: string;
+  description: string;
+  status: string;
+  priority: string;
+}
 export const getAllTasks = async () => {
   try {
     const response = await axios.get(`${API_URL}`, {
@@ -12,7 +18,7 @@ export const getAllTasks = async () => {
   }
 };
 
-export const createTask = async (taskData) => {
+export const createTask = async (taskData:TaskData):Promise<void> => {
   console.log(taskData);
   try {
     const response = await axios.post(`${API_URL}`, taskData, {

@@ -1,53 +1,48 @@
 import React from "react";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { FaPlusCircle } from "react-icons/fa";
 import AddTaskForm from "./TaskForm/AddTaskForm";
-import TaskDisplay from "../Tasks/TaskDisplay";
+import TaskTable from "../Tasks/TaskTable";
 import { createTask, getAllTasks } from "../../api/task";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, AppDispatch } from "../../redux/store";
+import { setTasks } from "../../redux/taskSlice";
+import { addTask } from "../../redux/taskSlice";
 function DisplaySection() {
-  const [showTaskForm, setshowTaskForm] = useState(false);
-  const [tasks, setTasks] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [showTaskForm, setShowTaskForm] = useState<boolean>(false);
+  const tasks = useSelector((state: RootState) => state.tasks.tasks);
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     const fetchTasks = async () => {
       try {
         const data = await getAllTasks();
         console.log(data);
-        setTasks(data);
+        dispatch(setTasks(data));
       } catch (error) {
         console.log(error);
-        setError(error.message);
-      } finally {
-        setLoading(false);
       }
     };
     fetchTasks();
-  }, []);
+  }, [dispatch]);
 
   const handleTaskCreation = async (taskData) => {
     try {
       const createdTask = await createTask(taskData);
-      setTasks((prevTasks) => [...prevTasks, createdTask]);
+      dispatch(addTask(createTask));
       console.log("Task created", createdTask);
-    } catch (error) {
+    } catch (error:unknown) {
       console.error(error.message);
     }
   };
 
-
   function toggleTaskForm() {
-    setshowTaskForm(!showTaskForm);
+    setShowTaskForm(!showTaskForm);
   }
 
   function formCloseHanlder() {
-    setshowTaskForm(!showTaskForm);
+    setShowTaskForm(!showTaskForm);
   }
-
-  if (loading) return <p>Loading tasks...</p>;
-
-  if (error) return <p>Error fetching tasks: {error}</p>;
 
   return (
     <div className="h-/12 relative w-full p-12 pt-24">
@@ -67,7 +62,7 @@ function DisplaySection() {
             onSubmit={handleTaskCreation}
           />
         </div>
-        <TaskDisplay tasks={tasks} />
+        <TaskTable tasks={tasks} />
       </div>
     </div>
   );

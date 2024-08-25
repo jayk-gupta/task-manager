@@ -23,28 +23,30 @@ const schema = z.object({
   confirmPassword: z.string(),
 });
 
+type FormErrors = Record<string, string>;
+
 function RegisterForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [errors, setErrors] = useState({});
-  const [showPassword, setshowPassword] = useState(true);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [showPassword, setshowPassword] = useState<boolean>(true);
   const navigate = useNavigate();
 
-  function handleEmail(e) {
+  function handleEmail(e: React.ChangeEvent<HTMLInputElement>) {
     setEmail(e.target.value);
   }
-  function handlePassword(e) {
+  function handlePassword(e: React.ChangeEvent<HTMLInputElement>) {
     setPassword(e.target.value);
   }
-  function handleConfirmPassword(e) {
+  function handleConfirmPassword(e: React.ChangeEvent<HTMLInputElement>) {
     setConfirmPassword(e.target.value);
   }
   function handlePasswordVisibility() {
     setshowPassword(!showPassword);
   }
   // Submit handler
-  async function handleSubmit(e) {
+  async function handleSubmit(e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
     // validate form data
     const validationResult = schema.safeParse({
@@ -56,10 +58,10 @@ function RegisterForm() {
       // set validation errors
       const validationErrors = validationResult.error.errors.reduce(
         (acc, error) => {
-          acc[error.path[0]] = error.message;
+          acc[error.path[0] as string] = error.message;
           return acc;
         },
-        {},
+        {} as Record<string,string>,
       );
       setErrors(validationErrors);
       return;

@@ -4,25 +4,29 @@ import FormWrapper from "../components/FormWrapper";
 import EmailInput from "../components/EmailInput";
 import PasswordInput from "../components/PasswordInput";
 import { loginUser } from "../../../services/api";
+interface Errors {
+  [key: string]: string;
+}
+
 import axios from "axios";
 // schema
 
 function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState({});
-  const [showPassword, setshowPassword] = useState(true);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [errors, setErrors] = useState<Errors>({});
+  const [showPassword, setshowPassword] = useState<boolean>(true);
   const navigate = useNavigate();
-  function handleEmail(e) {
+  function handleEmail(e: React.ChangeEvent<HTMLInputElement>) {
     setEmail(e.target.value);
   }
-  function handlePassword(e) {
+  function handlePassword(e: React.ChangeEvent<HTMLInputElement>) {
     setPassword(e.target.value);
   }
   function handlePasswordVisibility() {
     setshowPassword(!showPassword);
   }
-  async function handleSubmit(e) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     console.log("hi");
     e.preventDefault();
     try {
