@@ -1,6 +1,6 @@
 # Task Manager
 
-A full-stack web application for managing tasks, built with MongoDB, Express.js, React.js, and Node.js (MERN stack).
+A full-stack web application for managing tasks, built with MongoDB, Express.js, React.js, Node.js (MERN stack), incorporating TypeScript and Redux for enhanced type safety and state management.
 
 ## Features
 
