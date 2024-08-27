@@ -6,7 +6,7 @@ import StatusOptions from "./StatusOptions";
 import { useDispatch } from "react-redux";
 import { addTask } from "../../../redux/taskSlice";
 
-function AddTaskForm({  closeForm }) {
+function AddTaskForm({onSubmit,  closeForm }) {
   // states
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");

@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../redux/store";
 import { setTasks } from "../../redux/taskSlice";
 import { addTask } from "../../redux/taskSlice";
+import { Task } from "../../types/task";
+import { RegisterFormProvider } from "../../contexts/RegisterFormContext";
 function DisplaySection() {
   const [showTaskForm, setShowTaskForm] = useState<boolean>(false);
   const tasks = useSelector((state: RootState) => state.tasks.tasks);
@@ -26,10 +28,10 @@ function DisplaySection() {
     fetchTasks();
   }, [dispatch]);
 
-  const handleTaskCreation = async (taskData) => {
+  const handleTaskCreation = async (taskData:Task) => {
     try {
-      const createdTask = await createTask(taskData);
-      dispatch(addTask(createTask));
+      const createdTask:any = await createTask(taskData);
+      dispatch(addTask(createdTask));
       console.log("Task created", createdTask);
     } catch (error:unknown) {
       console.error(error.message);
@@ -57,10 +59,12 @@ function DisplaySection() {
         <div
           className={`absolute left-[25%] z-50 w-1/2 ${showTaskForm ? "block" : "hidden"}`}
         >
-          <AddTaskForm
-            closeForm={formCloseHanlder}
-            onSubmit={handleTaskCreation}
-          />
+          <RegisterFormProvider>
+            <AddTaskForm
+              closeForm={formCloseHanlder}
+              onSubmit={handleTaskCreation}
+            />
+          </RegisterFormProvider>
         </div>
         <TaskTable tasks={tasks} />
       </div>

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Task } from "../types/task";
 const API_URL = "http://localhost:3000/task";
 
 interface TaskData {
@@ -18,14 +19,17 @@ export const getAllTasks = async () => {
   }
 };
 
-export const createTask = async (taskData:TaskData):Promise<void> => {
+export const createTask = async (taskData: TaskData): Promise<Task> => {
   console.log(taskData);
   try {
     const response = await axios.post(`${API_URL}`, taskData, {
       withCredentials: true,
     });
     console.log("Task created successfully:", response.data.response);
+    const createdTask: Task = response.data;
+    return createdTask;
   } catch (error) {
     console.log(error);
+    throw new Error("Task creation failed");
   }
 };

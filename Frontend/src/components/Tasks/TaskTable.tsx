@@ -1,12 +1,6 @@
 import React from "react";
 import styles from "./TaskTable.module.css"
-interface Task {
-  _id: string;
-  title: string;
-  description: string;
-  status: string;
-  priority: string;
-}
+import { Task } from "../../types/task";
 interface TaskTableProps {
   tasks: Task[];
 }

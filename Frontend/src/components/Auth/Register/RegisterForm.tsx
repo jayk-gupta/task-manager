@@ -1,37 +1,25 @@
 import React, { useState } from "react";
-import { registerUser } from "../../../services/api";
-import { z } from "zod";
-import { useNavigate } from "react-router-dom";
+import { userRegisterForm } from "../../../contexts/RegisterFormContext";
 import EmailInput from "../components/EmailInput";
 import PasswordInput from "../components/PasswordInput";
 import ConfirmPasswordInput from "../components/ConfirmPasswordInput";
 import FormWrapper from "../components/FormWrapper";
 
-// schema
-const schema = z.object({
-  email: z.string().email({ message: "Invalid email address" }),
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters long" })
-    .regex(/[a-z]/, {
-      message: "Password must contain at least one lowercase letter",
-    })
-    .regex(/[A-Z]/, {
-      message: "Password must contain at least one uppercase letter",
-    })
-    .regex(/[0-9]/, { message: "Password must contain at least one number" }),
-  confirmPassword: z.string(),
-});
 
-type FormErrors = Record<string, string>;
 
 function RegisterForm() {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [showPassword, setshowPassword] = useState<boolean>(true);
-  const navigate = useNavigate();
+ const {
+   email,
+   setEmail,
+   password,
+   setPassword,
+   confirmPassword,
+   setConfirmPassword,
+   errors,
+   showPassword,
+   setshowPassword,
+   handleSubmit,
+ } = userRegisterForm();
 
   function handleEmail(e: React.ChangeEvent<HTMLInputElement>) {
     setEmail(e.target.value);
@@ -45,40 +33,7 @@ function RegisterForm() {
   function handlePasswordVisibility() {
     setshowPassword(!showPassword);
   }
-  // Submit handler
-  async function handleSubmit(e: React.ChangeEvent<HTMLInputElement>) {
-    e.preventDefault();
-    // validate form data
-    const validationResult = schema.safeParse({
-      email,
-      password,
-      confirmPassword,
-    });
-    if (!validationResult.success) {
-      // set validation errors
-      const validationErrors = validationResult.error.errors.reduce(
-        (acc, error) => {
-          acc[error.path[0] as string] = error.message;
-          return acc;
-        },
-        {} as Record<string,string>,
-      );
-      setErrors(validationErrors);
-      return;
-    }
-    if (password !== confirmPassword) {
-      alert("Passwords do not match!");
-    }
-    try {
-      console.log("in try block");
-      const response = await registerUser({ email, password });
-      console.log(response);
-      alert("Registration successful");
-      navigate("/login");
-    } catch (err) {
-      console.error("Error registering user");
-    }
-  }
+
   ///////////////////////////////////////////////////////////////
   // JSX
   return (
