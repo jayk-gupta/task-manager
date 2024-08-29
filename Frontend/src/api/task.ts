@@ -15,12 +15,11 @@ export const getAllTasks = async () => {
     });
     return response.data;
   } catch (err) {
-    console.error("ERror fetching tasks", err);
+    console.error("Error fetching tasks", err);
   }
 };
 
 export const createTask = async (taskData: TaskData): Promise<Task> => {
-  console.log(taskData);
   try {
     const response = await axios.post(`${API_URL}`, taskData, {
       withCredentials: true,
@@ -31,5 +30,27 @@ export const createTask = async (taskData: TaskData): Promise<Task> => {
   } catch (error) {
     console.log(error);
     throw new Error("Task creation failed");
+  }
+};
+
+export const deleteTask = async (taskId: string) => {
+  try {
+    const response = await axios.delete(`${API_URL}/${taskId}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Task deletion failed");
+  }
+};
+export const updateTask = async (taskId: string, taskData: Task) => {
+  try {
+    const res = await axios.put(`${API_URL}/${taskId}`, taskData, {
+      withCredentials: true,
+    });
+    return res.data
+  } catch (error) {
+    throw new Error("Task updation failed");
   }
 };

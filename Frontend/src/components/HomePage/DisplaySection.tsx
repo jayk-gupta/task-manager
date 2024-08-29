@@ -31,12 +31,12 @@ function DisplaySection() {
   const handleTaskCreation = async (taskData:Task) => {
     try {
       const createdTask:any = await createTask(taskData);
-      dispatch(addTask(createdTask));
       console.log("Task created", createdTask);
     } catch (error:unknown) {
       console.error(error.message);
     }
   };
+ 
 
   function toggleTaskForm() {
     setShowTaskForm(!showTaskForm);

@@ -43,6 +43,7 @@ exports.getTaskById = async (req, res) => {
 exports.createTask = async (req, res) => {
   try {
     const { title, description, status, priority } = req.body;
+    console.log("In create task controller");
     console.log(req.body);
     const userId = req.userPayload.id;
     // create new task
@@ -74,8 +75,9 @@ exports.updateTask = async (req, res) => {
     const updatedTaskData = req.body;
     const userId = req.userPayload.id;
 
-    const res = await Task.findByIdAndUpdate(
+    const response = await Task.findOneAndUpdate(
       { _id: taskId, userId },
+      updatedTaskData,
       {
         new: true,
         runValidators: true,
@@ -97,13 +99,14 @@ exports.updateTask = async (req, res) => {
 exports.deleteTask = async (req, res) => {
   try {
     const taskId = req.params.id;
+    console.log("in delete task");
+
     const userId = req.userPayload.id;
-    const res = await Task.findByIdAndDelete({ _id: taskId, userId });
+
+    const response = await Task.findOneAndDelete({ _id: taskId, userId });
+    console.log("response"  + response);
     if (!response) {
       return res.status(404).json({ error: "task not found" });
-    }
-    if (!deletedTask) {
-      return res.status(404).json({ error: "Task not found" });
     }
     res.status(200).json({
       response: response,

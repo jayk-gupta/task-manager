@@ -1,44 +1,69 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { CiFlag1 } from "react-icons/ci";
 import PriorityOptions from "./PriorityOptions";
 import StatusOptions from "./StatusOptions";
 import { useDispatch } from "react-redux";
-import { addTask } from "../../../redux/taskSlice";
-
-function AddTaskForm({onSubmit,  closeForm }) {
+import { addTask, updateTaskRedux } from "../../../redux/taskSlice";
+import { Task, TaskData } from "../../../types/task";
+import { updateTask } from "../../../api/task";
+interface AddTaskFormProps {
+  onSubmit: (task: Task) => void;
+  closeForm: () => void;
+  editTask?: Task | null;
+}
+function AddTaskForm({ onSubmit, closeForm, editTask }: AddTaskFormProps) {
   // states
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [selectedPriority, setSelectedPriority] = useState<string>("low");
   const [selectedStatus, setSelectedStatus] = useState<string>("pending");
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (editTask) {
+      setTitle(editTask.title);
+      setDescription(editTask.description);
+      setSelectedPriority(editTask.priority);
+      setSelectedStatus(editTask.status);
+    }
+  }, [editTask]);
+
   //  EVENT HANDLERS
-  function taskHandler(e:React.ChangeEvent<HTMLInputElement>) {
+  function taskHandler(e: React.ChangeEvent<HTMLInputElement>) {
     setTitle(e.target.value);
   }
-  function descriptionHanlder(e:React.ChangeEvent<HTMLInputElement>) {
+  function descriptionHanlder(e: React.ChangeEvent<HTMLInputElement>) {
     setDescription(e.target.value);
   }
 
-  const handleStatusChange = (status:string) => {
+  const handleStatusChange = (status: string) => {
     setSelectedStatus(status);
   };
-  function handlePrioritySelect(priority:string) {
+  function handlePrioritySelect(priority: string) {
     setSelectedPriority(priority);
   }
   ///////////////////
-  function handleSubmit(e: React.ChangeEvent<HTMLInputElement>) {
+  async function handleSubmit(e: React.ChangeEvent<HTMLFormElement>) {
     e.preventDefault();
-    const newTask = {
+    const taskData: Task = {
+      _id: editTask ? editTask._id : "",
       title,
       description,
       status: selectedStatus,
       priority: selectedPriority,
     };
-    dispatch(addTask(newTask));
+    if (editTask) {
+      let updatedTask = await updateTask(editTask._id, taskData);
+      console.log(updatedTask)
+      dispatch(updateTaskRedux(updatedTask));
+    } else {
+      dispatch(addTask(taskData));
+    }
+    onSubmit(taskData);
     closeForm();
   }
+
   //  JSX
   return (
     <div className="rounded-xl shadow-2xl">
@@ -94,7 +119,7 @@ function AddTaskForm({onSubmit,  closeForm }) {
                 : "cursor-not-allowed"
             }`}
           >
-            Add task
+            {editTask ? "Update Task" : "Add Task"}
           </button>
         </div>
       </form>

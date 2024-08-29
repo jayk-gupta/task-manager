@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import {Task} from "../types/task";
+import { Task, TaskData } from "../types/task";
 
 interface TaskState {
   tasks: Task[];
@@ -17,13 +17,15 @@ const taskSlice = createSlice({
     addTask: (state, action: PayloadAction<Task>) => {
       state.tasks.push(action.payload);
     },
-    setTasks: (state, action:PayloadAction<Task[]>) => {
+    setTasks: (state, action: PayloadAction<Task[]>) => {
       state.tasks = action.payload;
     },
     removeTask: (state, action: PayloadAction<{ id: string }>) => {
-      state.tasks = state.tasks.filter((task) => task._id !== action.payload.id);
+      state.tasks = state.tasks.filter(
+        (task) => task._id !== action.payload.id,
+      );
     },
-    updateTask: (state, action: PayloadAction<Task>) => {
+    updateTaskRedux: (state, action: PayloadAction<Task>) => {
       const index = state.tasks.findIndex(
         (task) => task._id === action.payload._id,
       );
@@ -31,13 +33,9 @@ const taskSlice = createSlice({
         state.tasks[index] = { ...state.tasks[index], ...action.payload };
       }
     },
-    deleteTask: (state, action: PayloadAction<{ id: String }>) => {
-      state.tasks = state.tasks.filter((task) => task._id !== action.payload.id);
-    },
   },
 });
 
-export const { addTask, removeTask, updateTask, deleteTask, setTasks } =
-  taskSlice.actions;
+export const { addTask, removeTask, updateTaskRedux, setTasks } = taskSlice.actions;
 
 export default taskSlice.reducer;
