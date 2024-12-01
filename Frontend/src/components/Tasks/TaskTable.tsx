@@ -3,18 +3,22 @@ import styles from "./TaskTable.module.css";
 import { Task } from "../../types/task";
 import PriorityBadge from "./PriorityBadge";
 import StatusBadge from "./StatusBadge";
-import { useDispatch } from "react-redux";
-import { deleteTask } from "../../api/task";
-import { removeTask, setTasks } from "../../redux/taskSlice";
 import { RegisterFormProvider } from "../../contexts/RegisterFormContext";
 import AddTaskForm from "../HomePage/TaskForm/AddTaskForm";
+import { useAppDispatch } from "../../hooks/dispatcHook";
+import { deleteTaskAsync } from "../../redux/taskSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 interface TaskTableProps {
   tasks: Task[];
 }
-const TaskTable: React.FC<TaskTableProps> = ({ tasks }) => {
+const TaskTable: React.FC<TaskTableProps> = () => {
   const [showTaskForm, setShowTaskForm] = useState<boolean>(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch()
+    const { tasks } = useSelector(
+      (state: RootState) => state.tasks,
+    );
 
   // EDIT FORM TOGGLE
   function toggleTaskForm() {
@@ -27,14 +31,12 @@ const TaskTable: React.FC<TaskTableProps> = ({ tasks }) => {
   }
 
   // DELETE
-  const handleDeleteTask = async (id: string) => {
+  const handleDeleteTask = async (taskId: string) => {
     try {
-      const deletedTask = await deleteTask(id);
-      console.log(deletedTask)
-      dispatch(removeTask({ id }));
-
+     await dispatch(deleteTaskAsync(taskId)).unwrap()
+   console.log(`Task with ID ${taskId} deleted successfully.`);
     } catch (error) {
-      console.error(error);
+       console.error("Failed to delete task:", err);
     }
   };
   // EDIT
@@ -43,9 +45,9 @@ const TaskTable: React.FC<TaskTableProps> = ({ tasks }) => {
     toggleTaskForm(); // Show the form
   };
   const handleTaskUpdate = (updatedTask: Task) => {
-    console.log("Updated task: " + updatedTask)
-    formCloseHandler()
-}
+    console.log("Updated task: " + updatedTask);
+    formCloseHandler();
+  };
   return (
     <>
       <table className={`text-sm ${styles.taskTable}`}>
@@ -59,7 +61,7 @@ const TaskTable: React.FC<TaskTableProps> = ({ tasks }) => {
           </tr>
         </thead>
         <tbody>
-          {tasks.map((task) => (
+          {tasks.map((task,index) => (
             <tr key={task._id}>
               <td>{task.title}</td>
               <td>{task.description}</td>

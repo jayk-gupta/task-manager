@@ -4,9 +4,10 @@ import { CiFlag1 } from "react-icons/ci";
 import PriorityOptions from "./PriorityOptions";
 import StatusOptions from "./StatusOptions";
 import { useDispatch } from "react-redux";
-import { addTask, updateTaskRedux } from "../../../redux/taskSlice";
 import { Task, TaskData } from "../../../types/task";
-import { updateTask } from "../../../api/task";
+import { addTaskAsync, updateTaskAsync } from "../../../redux/taskSlice";
+import { useAppDispatch } from "../../../hooks/dispatcHook";
+
 interface AddTaskFormProps {
   onSubmit: (task: Task) => void;
   closeForm: () => void;
@@ -18,7 +19,7 @@ function AddTaskForm({ onSubmit, closeForm, editTask }: AddTaskFormProps) {
   const [description, setDescription] = useState<string>("");
   const [selectedPriority, setSelectedPriority] = useState<string>("low");
   const [selectedStatus, setSelectedStatus] = useState<string>("pending");
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (editTask) {
@@ -46,21 +47,20 @@ function AddTaskForm({ onSubmit, closeForm, editTask }: AddTaskFormProps) {
   ///////////////////
   async function handleSubmit(e: React.ChangeEvent<HTMLFormElement>) {
     e.preventDefault();
-    const taskData: Task = {
-      _id: editTask ? editTask._id : "",
+    const taskData: Partial<Task> = {
       title,
       description,
       status: selectedStatus,
       priority: selectedPriority,
     };
+    console.log(taskData)
     if (editTask) {
-      let updatedTask = await updateTask(editTask._id, taskData);
-      console.log(updatedTask)
-      dispatch(updateTaskRedux(updatedTask));
-    } else {
-      dispatch(addTask(taskData));
+      dispatch(updateTaskAsync({ ...taskData, _id: editTask._id } as Task));
     }
-    onSubmit(taskData);
+    //  else {
+    //   dispatch(addTaskAsync(taskData));
+    // }
+    onSubmit(taskData as Task);
     closeForm();
   }
 

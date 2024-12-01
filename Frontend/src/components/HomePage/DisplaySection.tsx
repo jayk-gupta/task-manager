@@ -3,40 +3,30 @@ import { useState, useEffect } from "react";
 import { FaPlusCircle } from "react-icons/fa";
 import AddTaskForm from "./TaskForm/AddTaskForm";
 import TaskTable from "../Tasks/TaskTable";
-import { createTask, getAllTasks } from "../../api/task";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../redux/store";
-import { setTasks } from "../../redux/taskSlice";
-import { addTask } from "../../redux/taskSlice";
 import { Task } from "../../types/task";
 import { RegisterFormProvider } from "../../contexts/RegisterFormContext";
+import { addTaskAsync, fetchTasks } from "../../redux/taskSlice";
 function DisplaySection() {
   const [showTaskForm, setShowTaskForm] = useState<boolean>(false);
-  const tasks = useSelector((state: RootState) => state.tasks.tasks);
+  const { tasks, loading, error } = useSelector(
+    (state: RootState) => state.tasks,
+  );
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const data = await getAllTasks();
-        console.log(data);
-        dispatch(setTasks(data));
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchTasks();
+    dispatch(fetchTasks());
   }, [dispatch]);
 
-  const handleTaskCreation = async (taskData:Task) => {
+  const handleTaskCreation = async (taskData: Task) => {
     try {
-      const createdTask:any = await createTask(taskData);
-      console.log("Task created", createdTask);
-    } catch (error:unknown) {
+      await dispatch(addTaskAsync(taskData)).unwrap();
+      setShowTaskForm(false);
+    } catch (error: unknown) {
       console.error(error.message);
     }
   };
- 
 
   function toggleTaskForm() {
     setShowTaskForm(!showTaskForm);
