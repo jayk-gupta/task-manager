@@ -32,7 +32,7 @@ mongoose
 // ROUTES
 const taskRoutes = require("./routes/TaskRoutes");
 const userRoutes = require("./routes/userRoutes");
-const { jwtAuthMiddleware } = require("./jwt");
+
 
 app.use("/task",taskRoutes);
 app.use("/user", userRoutes);

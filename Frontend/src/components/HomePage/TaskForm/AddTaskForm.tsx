@@ -5,15 +5,18 @@ import PriorityOptions from "./PriorityOptions";
 import StatusOptions from "./StatusOptions";
 import { useDispatch } from "react-redux";
 import { Task, TaskData } from "../../../types/task";
-import { addTaskAsync, updateTaskAsync } from "../../../redux/taskSlice";
+import {
+  addTaskAsync,
+  fetchTasks,
+  updateTaskAsync,
+} from "../../../redux/taskSlice";
 import { useAppDispatch } from "../../../hooks/dispatcHook";
 
 interface AddTaskFormProps {
-  onSubmit: (task: Task) => void;
   closeForm: () => void;
   editTask?: Task | null;
 }
-function AddTaskForm({ onSubmit, closeForm, editTask }: AddTaskFormProps) {
+function AddTaskForm({ closeForm, editTask }: AddTaskFormProps) {
   // states
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -53,14 +56,19 @@ function AddTaskForm({ onSubmit, closeForm, editTask }: AddTaskFormProps) {
       status: selectedStatus,
       priority: selectedPriority,
     };
-    console.log(taskData)
-    if (editTask) {
-      dispatch(updateTaskAsync({ ...taskData, _id: editTask._id } as Task));
+    try {
+      if (editTask) {
+        await dispatch(
+          updateTaskAsync({ ...taskData, _id: editTask._id } as Task),
+        );
+      } else {
+        await dispatch(addTaskAsync(taskData)).unwrap();
+        dispatch(fetchTasks());
+      }
+    } catch (error: unknown) {
+      console.error(error.message);
     }
-    //  else {
-    //   dispatch(addTaskAsync(taskData));
-    // }
-    onSubmit(taskData as Task);
+
     closeForm();
   }
 

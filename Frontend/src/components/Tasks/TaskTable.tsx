@@ -12,14 +12,11 @@ import { RootState } from "../../redux/store";
 interface TaskTableProps {
   tasks: Task[];
 }
-const TaskTable: React.FC<TaskTableProps> = () => {
+const TaskTable:React.FC<TaskTableProps> = ({tasks}) => {
   const [showTaskForm, setShowTaskForm] = useState<boolean>(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
-  const dispatch = useAppDispatch()
-    const { tasks } = useSelector(
-      (state: RootState) => state.tasks,
-    );
-
+  const dispatch = useAppDispatch();
+  console.log(`task table: ${tasks}`);
   // EDIT FORM TOGGLE
   function toggleTaskForm() {
     setShowTaskForm(!showTaskForm);
@@ -33,10 +30,10 @@ const TaskTable: React.FC<TaskTableProps> = () => {
   // DELETE
   const handleDeleteTask = async (taskId: string) => {
     try {
-     await dispatch(deleteTaskAsync(taskId)).unwrap()
-   console.log(`Task with ID ${taskId} deleted successfully.`);
+      await dispatch(deleteTaskAsync(taskId)).unwrap();
+      console.log(`Task with ID ${taskId} deleted successfully.`);
     } catch (error) {
-       console.error("Failed to delete task:", err);
+      console.error("Failed to delete task:", err);
     }
   };
   // EDIT
@@ -61,7 +58,7 @@ const TaskTable: React.FC<TaskTableProps> = () => {
           </tr>
         </thead>
         <tbody>
-          {tasks.map((task,index) => (
+          {tasks.map((task, index) => (
             <tr key={task._id}>
               <td>{task.title}</td>
               <td>{task.description}</td>
@@ -87,7 +84,7 @@ const TaskTable: React.FC<TaskTableProps> = () => {
         <RegisterFormProvider>
           <AddTaskForm
             closeForm={formCloseHandler}
-            onSubmit={handleTaskUpdate}
+            // onSubmit={handleTaskUpdate}
             editTask={editingTask} // Pass selected task data
           />
         </RegisterFormProvider>

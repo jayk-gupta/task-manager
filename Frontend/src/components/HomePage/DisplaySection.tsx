@@ -19,15 +19,6 @@ function DisplaySection() {
     dispatch(fetchTasks());
   }, [dispatch]);
 
-  const handleTaskCreation = async (taskData: Task) => {
-    try {
-      await dispatch(addTaskAsync(taskData)).unwrap();
-      setShowTaskForm(false);
-    } catch (error: unknown) {
-      console.error(error.message);
-    }
-  };
-
   function toggleTaskForm() {
     setShowTaskForm(!showTaskForm);
   }
@@ -52,11 +43,10 @@ function DisplaySection() {
           <RegisterFormProvider>
             <AddTaskForm
               closeForm={formCloseHanlder}
-              onSubmit={handleTaskCreation}
             />
           </RegisterFormProvider>
         </div>
-        <TaskTable tasks={tasks} />
+        <TaskTable tasks={ tasks} />
       </div>
     </div>
   );
