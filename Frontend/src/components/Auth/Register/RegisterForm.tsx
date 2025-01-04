@@ -52,8 +52,8 @@ function RegisterForm() {
           handleConfirmPassword={handleConfirmPassword}
           errors={errors}
         />
-        <p>
-          Already have an account? <a href="/login">Log In</a>
+        <p >
+          Already have an account? <a href="/login" className="underline text-blue-500">Log In</a>
         </p>
       </FormWrapper>
     </div>

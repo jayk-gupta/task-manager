@@ -5,13 +5,16 @@ import { CiBellOn } from "react-icons/ci";
 import { useState } from "react";
 import { FaPlusCircle } from "react-icons/fa";
 function SideBar() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
   function sidebarHanlder() {
+    console.log("in sidebar")
     setIsSidebarOpen(!isSidebarOpen);
   }
   return (
-    <div className="h-screen w-72 bg-[#FCFAF8] p-2">
+    <div
+      className={`h-screen w-72 p-2 transition-transform duration-500 ${isSidebarOpen ? "-translate-x-0 bg-[#FCFAF8]" : "-translate-x-52 bg-[white]"} `}
+    >
       <header className="flex items-center justify-between text-lg">
         <div className="flex items-center justify-center gap-2 hover:bg-gray-100">
           <img
@@ -27,7 +30,7 @@ function SideBar() {
           <button>
             <CiBellOn className="h-6 w-6" />
           </button>
-          <button onClick={sidebarHanlder}>
+          <button onClick={sidebarHanlder} className="p-1 hover:bg-[#EFECE6]">
             <FiSidebar className="h-6 w-6" />
           </button>
         </div>

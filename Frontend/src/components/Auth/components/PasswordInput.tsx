@@ -5,7 +5,7 @@ import { VscEyeClosed } from "react-icons/vsc";
 
 function PasswordInput({password,handlePassword,showPassword,handlePasswordVisibility,errors}) {
   return (
-    <div className="form-group">
+    <div className="form-group relative">
       <label htmlFor="password">Password</label>
       <input
         type={showPassword ? "text" : "password"}
@@ -17,7 +17,7 @@ function PasswordInput({password,handlePassword,showPassword,handlePasswordVisib
       />
       <span
         onClick={handlePasswordVisibility}
-        className="relative bottom-7 left-[330px] cursor-pointer"
+        className="absolute bottom-3 right-3 cursor-pointer"
       >
         {showPassword ? (
           <VscEye className="visible" />

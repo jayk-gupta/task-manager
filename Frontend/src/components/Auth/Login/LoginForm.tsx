@@ -54,7 +54,7 @@ function LoginForm() {
           errors={errors}
         />
         <p>
-          Don't have an account? <a href="/register">Sign Up</a>
+          Don't have an account? <a href="/register" className="text-blue-500 underline">Sign Up</a>
         </p>
       </FormWrapper>
     </div>
