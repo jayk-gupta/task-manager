@@ -2,6 +2,12 @@
 
 A full-stack web application for managing tasks, built with MongoDB, Express.js, React.js, Node.js (MERN stack), incorporating TypeScript and Redux for enhanced type safety and state management.
 
+# Screenshots
+![Screenshot 2025-03-23 222638](https://github.com/user-attachments/assets/19b6f6ef-847f-49d6-8294-56bae58826cf)
+![Screenshot 2025-03-23 223015](https://github.com/user-attachments/assets/a38241d3-0802-41c0-883b-8a1f13508b31)
+![Screenshot 2025-03-23 223039](https://github.com/user-attachments/assets/2b8c7e5a-d023-4f29-9c10-646ba8ce31e2)
+
+
 ## Features
 
 - **User Authentication & Authorization**: Secure access using JWT.
